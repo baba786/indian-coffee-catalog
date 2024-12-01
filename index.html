@@ -24,11 +24,14 @@
     <script>
         // Initialize SQL.js
         initSqlJs().then(function(SQL){
-            // Load the database
-            fetch('indian_coffee_houses.db')
-                .then(response => response.arrayBuffer())
-                .then(buffer => {
-                    const db = new SQL.Database(new Uint8Array(buffer));
+            // Load the SQL file
+            fetch('indian_coffee_houses.sql')
+                .then(response => response.text())
+                .then(sql => {
+                    const db = new SQL.Database();
+                    
+                    // Execute the SQL commands to create and populate the database
+                    db.run(sql);
                     
                     // Query coffee houses and their products
                     const result = db.exec(`
@@ -47,38 +50,47 @@
 
                     const coffeeHousesDiv = document.getElementById('coffee-houses');
                     
-                    result[0].values.forEach(row => {
-                        const [id, name, hq, year, desc, website, productsStr] = row;
-                        const products = productsStr.split(',').map(p => {
-                            const [name, type, roast, price] = p.split('|');
-                            return { name, type, roast, price };
-                        });
+                    if (result[0] && result[0].values) {
+                        result[0].values.forEach(row => {
+                            const [id, name, hq, year, desc, website, productsStr] = row;
+                            const products = productsStr.split(',').map(p => {
+                                const [name, type, roast, price] = p.split('|');
+                                return { name, type, roast, price };
+                            });
 
-                        const card = document.createElement('div');
-                        card.className = 'bg-white rounded-lg shadow-lg p-6';
-                        card.innerHTML = `
-                            <h2 class="text-2xl font-bold text-amber-800">${name}</h2>
-                            <p class="text-gray-600 mt-2">${hq} • Est. ${year}</p>
-                            <p class="mt-4">${desc}</p>
-                            <div class="mt-6">
-                                <h3 class="font-semibold text-lg mb-2">Featured Coffees:</h3>
-                                <ul class="space-y-2">
-                                    ${products.map(p => `
-                                        <li class="border-b pb-2">
-                                            <span class="font-medium">${p.name}</span><br>
-                                            <span class="text-sm text-gray-600">
-                                                ${p.type} • ${p.roast} Roast • ₹${p.price}
-                                            </span>
-                                        </li>
-                                    `).join('')}
-                                </ul>
-                            </div>
-                            <a href="${website}" target="_blank" class="inline-block mt-4 text-amber-800 hover:text-amber-600">
-                                Visit Website →
-                            </a>
-                        `;
-                        coffeeHousesDiv.appendChild(card);
-                    });
+                            const card = document.createElement('div');
+                            card.className = 'bg-white rounded-lg shadow-lg p-6';
+                            card.innerHTML = `
+                                <h2 class="text-2xl font-bold text-amber-800">${name}</h2>
+                                <p class="text-gray-600 mt-2">${hq} • Est. ${year}</p>
+                                <p class="mt-4">${desc}</p>
+                                <div class="mt-6">
+                                    <h3 class="font-semibold text-lg mb-2">Featured Coffees:</h3>
+                                    <ul class="space-y-2">
+                                        ${products.map(p => `
+                                            <li class="border-b pb-2">
+                                                <span class="font-medium">${p.name}</span><br>
+                                                <span class="text-sm text-gray-600">
+                                                    ${p.type} • ${p.roast} Roast • ₹${p.price}
+                                                </span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                                <a href="${website}" target="_blank" class="inline-block mt-4 text-amber-800 hover:text-amber-600">
+                                    Visit Website →
+                                </a>
+                            `;
+                            coffeeHousesDiv.appendChild(card);
+                        });
+                    } else {
+                        coffeeHousesDiv.innerHTML = '<p class="text-red-600">No coffee houses found in the database.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading database:', error);
+                    document.getElementById('coffee-houses').innerHTML = 
+                        '<p class="text-red-600">Error loading the coffee database. Please try again later.</p>';
                 });
         });
     </script>
