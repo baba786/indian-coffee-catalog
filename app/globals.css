@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --brown-50: #FDF8F3;
-  --brown-100: #F5E6D3;
-  --brown-200: #E6C9A8;
-  --brown-300: #D7AC7D;
-  --brown-400: #C89052;
-  --brown-500: #B97327;
-  --brown-600: #955C1F;
-  --brown-700: #714517;
-  --brown-800: #4D2E0F;
-  --brown-900: #291708;
-}
-
 @layer base {
   body {
     @apply text-gray-900 bg-brown-50;
