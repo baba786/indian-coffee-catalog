@@ -5,7 +5,7 @@
     }
   },
   "framework": "nextjs",
-  "buildCommand": "npm ci && next build",
+  "buildCommand": "npm ci && npx tsc --noEmit && next build",
   "devCommand": "next dev",
   "installCommand": "npm ci",
   "headers": [
