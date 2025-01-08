@@ -1,37 +1,36 @@
-# Indian Coffee Catalog
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A web-based catalog showcasing major Indian coffee houses and their signature coffee products.
+## Getting Started
 
-## Features
+First, run the development server:
 
-- Information about major Indian coffee roasters
-- Detailed product listings with pricing
-- Responsive design using Tailwind CSS
-- SQLite database integration using SQL.js
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Coffee Houses Featured
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- Blue Tokai Coffee Roasters
-- Seven Beans Coffee Company
-- Classic Coffees
-- Third Wave Coffee Roasters
-- Devans Coffee
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Setup
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. Clone the repository
-2. Open index.html in a web browser
-3. Enable JavaScript to view the dynamic content
+## Learn More
 
-## Database
+To learn more about Next.js, take a look at the following resources:
 
-The SQLite database contains two tables:
-- coffee_houses: Information about coffee roasters
-- coffee_products: Details about coffee products
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Technology Stack
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- HTML5
-- Tailwind CSS
-- SQL.js
-- JavaScript
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
