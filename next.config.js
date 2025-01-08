@@ -13,14 +13,6 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
-  // Ensure CSS/SCSS modules work
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader'],
-    });
-    return config;
-  },
 };
 
 module.exports = nextConfig;
