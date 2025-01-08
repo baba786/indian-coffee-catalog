@@ -5,9 +5,9 @@
     }
   },
   "framework": "nextjs",
-  "buildCommand": "next build",
+  "buildCommand": "npm ci && next build",
   "devCommand": "next dev",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "headers": [
     {
       "source": "/(.*)",
