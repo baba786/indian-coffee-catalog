@@ -4,7 +4,22 @@ import { useState } from 'react';
 import BaseLayout from '../components/layout/BaseLayout';
 import Link from 'next/link';
 
-const brewingMethods = [
+interface BrewingMethod {
+  id: string;
+  name: string;
+  time: string;
+  difficulty: string;
+  steps: string[];
+  link: string;
+}
+
+interface BrewingCardProps {
+  method: BrewingMethod;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
+const brewingMethods: BrewingMethod[] = [
   {
     id: 'filter',
     name: 'South Indian Filter',
@@ -49,7 +64,7 @@ const brewingMethods = [
   }
 ];
 
-const BrewingCard = ({ method, isSelected, onClick }) => (
+const BrewingCard = ({ method, isSelected, onClick }: BrewingCardProps) => (
   <button
     onClick={onClick}
     className={`w-full text-left p-6 rounded-lg transition-all ${
@@ -71,8 +86,8 @@ const BrewingCard = ({ method, isSelected, onClick }) => (
 );
 
 export default function BrewPage() {
-  const [selectedMethod, setSelectedMethod] = useState(brewingMethods[0]);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [selectedMethod, setSelectedMethod] = useState<BrewingMethod>(brewingMethods[0]);
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
   return (
     <BaseLayout>
