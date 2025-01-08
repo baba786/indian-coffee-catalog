@@ -67,6 +67,7 @@ export interface BrewingMethod {
     order: number;
     instruction: string;
     tip?: string;
+    duration?: number; // in seconds
   }[];
   recommendedRoasts: ('Light' | 'Medium' | 'Medium-Dark' | 'Dark')[];
 }

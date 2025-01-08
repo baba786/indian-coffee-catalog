@@ -146,7 +146,8 @@ export const brewingMethods: BrewingMethod[] = [
       {
         order: 3,
         instruction: 'Add hot water (not boiling) and close the lid',
-        tip: 'Water temperature should be around 90°C'
+        tip: 'Water temperature should be around 90°C',
+        duration: 900 // 15 minutes
       }
     ],
     recommendedRoasts: ['Medium-Dark', 'Dark']
