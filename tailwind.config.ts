@@ -10,16 +10,16 @@ export default {
     extend: {
       colors: {
         brown: {
-          50: "var(--brown-50)",
-          100: "var(--brown-100)",
-          200: "var(--brown-200)",
-          300: "var(--brown-300)",
-          400: "var(--brown-400)",
-          500: "var(--brown-500)",
-          600: "var(--brown-600)",
-          700: "var(--brown-700)",
-          800: "var(--brown-800)",
-          900: "var(--brown-900)",
+          50: "#FDF8F3",
+          100: "#F5E6D3",
+          200: "#E6C9A8",
+          300: "#D7AC7D",
+          400: "#C89052",
+          500: "#B97327",
+          600: "#955C1F",
+          700: "#714517",
+          800: "#4D2E0F",
+          900: "#291708",
         },
       },
       fontFamily: {
