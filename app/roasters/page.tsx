@@ -128,131 +128,92 @@ interface RoasterCardProps {
 }
 
 const RoasterCard = ({ roaster }: RoasterCardProps) => (
-  <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
-    <div className="bg-brown-800 text-white p-6">
+  <div className="group bg-white hover:bg-brown-50/50 border border-gray-100 rounded-lg transition-all duration-300">
+    <Link
+      href={roaster.website}
+      target="_blank"
+      rel="noopener noreferrer sponsored"
+      className="block p-6"
+    >
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-xl font-bold mb-1">{roaster.name}</h3>
-          <p className="text-brown-200">Est. {roaster.established} • {roaster.location}</p>
+          <h3 className="text-lg font-medium text-gray-900 group-hover:text-brown-800 transition-colors">
+            {roaster.name}
+          </h3>
+          <p className="text-gray-500 text-sm mt-1">
+            {roaster.location}
+          </p>
         </div>
-        <span className="bg-brown-700 text-brown-100 px-3 py-1 rounded-full text-sm">
-          {roaster.type}
+        <span className="text-brown-600 text-sm">
+          {roaster.priceRange}
         </span>
       </div>
-      <p className="text-brown-100 text-sm line-clamp-3">
+      
+      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
         {roaster.description}
       </p>
-    </div>
 
-    <div className="p-6">
-      <div className="space-y-4">
-        <div>
-          <h4 className="text-sm font-medium text-gray-500 mb-2">Popular Products</h4>
-          <ul className="space-y-1">
-            {roaster.popularProducts.map((product, index) => (
-              <li key={index} className="text-gray-800 text-sm">{product}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center text-sm">
-            <span className="text-gray-500 w-24">Specialty</span>
-            <span className="text-gray-800">{roaster.specialty}</span>
-          </div>
-          <div className="flex items-center text-sm">
-            <span className="text-gray-500 w-24">Price Range</span>
-            <span className="text-gray-800">{roaster.priceRange}</span>
-          </div>
-          <div className="flex items-center text-sm">
-            <span className="text-gray-500 w-24">Best For</span>
-            <span className="text-gray-800">{roaster.bestFor}</span>
-          </div>
-        </div>
+      <div className="flex flex-wrap gap-2">
+        {roaster.popularProducts.slice(0, 2).map((product, index) => (
+          <span 
+            key={index} 
+            className="inline-flex text-xs px-2 py-1 bg-brown-50 text-brown-800 rounded"
+          >
+            {product}
+          </span>
+        ))}
+        <span className="inline-flex text-xs px-2 py-1 bg-brown-50 text-brown-800 rounded">
+          {roaster.specialty.split(',')[0]}
+        </span>
       </div>
-
-      <div className="mt-6">
-        <Link
-          href={roaster.website}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="btn-primary w-full text-center inline-block"
-        >
-          Visit Website
-        </Link>
-      </div>
-    </div>
+    </Link>
   </div>
 );
 
 export default function RoastersPage() {
   return (
     <BaseLayout>
-      <div className="min-h-screen bg-brown-50">
-        {/* Hero Section */}
-        <div className="bg-brown-900 text-white pt-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">Meet India's Best Coffee Roasters</h1>
-            <p className="text-brown-100 max-w-2xl">
-              Discover where to buy freshly roasted coffee beans from India's top roasters.
-              Each roaster brings their unique expertise and passion to the world of specialty coffee.
+      <div className="min-h-screen bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="pt-24 pb-12">
+            <h1 className="text-2xl sm:text-3xl font-medium text-gray-900 mb-4">
+              Coffee Roasters
+            </h1>
+            <p className="text-gray-600">
+              A curated selection of India's finest specialty coffee roasters.
             </p>
           </div>
-        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          {/* Filters */}
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <select className="rounded-lg border-gray-300 text-gray-700 py-2 px-4 bg-white">
-                <option value="">All Locations</option>
-                <option value="bangalore">Bangalore</option>
-                <option value="mumbai">Mumbai</option>
-                <option value="delhi">Delhi</option>
-              </select>
-              <select className="rounded-lg border-gray-300 text-gray-700 py-2 px-4 bg-white">
-                <option value="">All Types</option>
-                <option value="premium">Premium</option>
-                <option value="artisanal">Artisanal</option>
-                <option value="cafe-chain">Cafe Chain</option>
-                <option value="boutique">Boutique</option>
-                <option value="sustainable">Sustainable</option>
-              </select>
-              <select className="rounded-lg border-gray-300 text-gray-700 py-2 px-4 bg-white">
-                <option value="">Price Range</option>
-                <option value="budget">Under ₹500</option>
-                <option value="mid">₹500 - ₹750</option>
-                <option value="premium">Above ₹750</option>
-              </select>
-            </div>
+          {/* Quick Filters */}
+          <div className="flex gap-2 pb-8 overflow-x-auto scrollbar-hide">
+            <button className="px-3 py-1.5 text-sm bg-brown-800 text-white rounded-full">
+              All Roasters
+            </button>
+            <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-brown-50 rounded-full">
+              Bangalore
+            </button>
+            <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-brown-50 rounded-full">
+              Mumbai
+            </button>
+            <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-brown-50 rounded-full">
+              Delhi
+            </button>
           </div>
 
-          {/* Roasters Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          {/* Roasters List */}
+          <div className="space-y-4">
             {roasters.map((roaster) => (
               <RoasterCard key={roaster.id} roaster={roaster} />
             ))}
           </div>
 
-          {/* Additional Information */}
-          <div className="mt-12 space-y-6 text-sm text-gray-600">
-            <div className="bg-white p-6 rounded-lg">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">About Indian Coffee Roasters</h2>
-              <p className="mb-4">
-                India's specialty coffee scene has grown significantly in recent years, with roasters
-                focusing on quality, sustainability, and direct trade relationships with farmers.
-                Many roasters work directly with estates in key coffee-growing regions like
-                Chikmagalur, Coorg, and the Nilgiris.
-              </p>
-              <p>
-                The roasters listed here have been selected based on their commitment to quality,
-                consistency, and contribution to India's specialty coffee movement. Prices and
-                availability may vary by season and location.
-              </p>
-            </div>
-            
-            <div className="text-center text-xs">
-              Note: Links above may be affiliate links. This helps support the guide at no extra cost to you.
-            </div>
+          {/* Footer Note */}
+          <div className="py-12">
+            <p className="text-sm text-gray-500">
+              All roasters are selected based on their commitment to quality and contribution to 
+              India's specialty coffee movement. Prices may vary by season.
+            </p>
           </div>
         </div>
       </div>
