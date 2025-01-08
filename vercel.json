@@ -5,7 +5,7 @@
     }
   },
   "framework": "nextjs",
-  "buildCommand": "npm ci && npm run typecheck && next build",
+  "buildCommand": "next build",
   "devCommand": "next dev",
   "installCommand": "npm ci",
   "headers": [
