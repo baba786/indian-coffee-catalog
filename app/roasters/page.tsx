@@ -4,7 +4,17 @@ import BaseLayout from '../components/layout/BaseLayout';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const roasters = [
+interface Roaster {
+  id: string;
+  name: string;
+  location: string;
+  bestSeller: string;
+  priceRange: string;
+  website: string;
+  image: string;
+}
+
+const roasters: Roaster[] = [
   {
     id: '1',
     name: 'Blue Tokai',
@@ -34,7 +44,11 @@ const roasters = [
   }
 ];
 
-const RoasterCard = ({ roaster }) => (
+interface RoasterCardProps {
+  roaster: Roaster;
+}
+
+const RoasterCard = ({ roaster }: RoasterCardProps) => (
   <Link
     href={roaster.website}
     target="_blank"
