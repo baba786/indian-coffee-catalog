@@ -11,30 +11,57 @@ import { LoadingCard } from "./components/shared/LoadingCard";
 const featuredCoffees = [
   {
     id: 1,
-    name: "Monsoon Malabar",
-    roaster: "Blue Tokai",
-    description: "A smooth, full-bodied coffee with notes of dark chocolate and spices.",
+    name: "MS Estate Blend",
+    roaster: "Blue Tokai Coffee Roasters",
+    description: "A signature blend from Mysore-Chikmagalur with notes of dark chocolate, caramel, and nuts. Medium-dark roast.",
     price: "₹449",
-    imageUrl: "/monsoon-malabar.jpg",
-    link: "https://bluetokaicoffee.com"
+    imageUrl: "/ms-estate.jpg",
+    link: "https://bluetokaicoffee.com/products/ms-estate-blend"
   },
   {
     id: 2,
-    name: "Attikan Estate",
-    roaster: "Third Wave Coffee",
-    description: "Bright and fruity with hints of orange and caramel.",
-    price: "₹399",
-    imageUrl: "/attikan.jpg",
-    link: "https://thirdwavecoffee.in"
+    name: "Ratnagiri Estate Natural",
+    roaster: "KC Roasters",
+    description: "Award-winning natural process coffee with intense fruity notes of strawberry and blueberry. Light-medium roast.",
+    price: "₹599",
+    imageUrl: "/ratnagiri-natural.jpg",
+    link: "https://kcroasters.com/products/ratnagiri-estate"
   },
   {
     id: 3,
-    name: "Ratnagiri Estate",
-    roaster: "Dope Coffee",
-    description: "Light roast with floral notes and a honey sweetness.",
+    name: "Baarbara Estate",
+    roaster: "Curious Life Coffee",
+    description: "Single estate coffee from Chikmagalur with notes of chocolate, orange, and brown sugar. Medium roast.",
+    price: "₹449",
+    imageUrl: "/baarbara.jpg",
+    link: "https://curiouslife.in/products/baarbara-estate"
+  },
+  {
+    id: 4,
+    name: "Attikan Estate Gold",
+    roaster: "Third Wave Coffee Roasters",
+    description: "Premium selection from Attikan Estate with notes of caramel, citrus, and honey. Medium roast.",
     price: "₹499",
-    imageUrl: "/ratnagiri.jpg",
-    link: "https://dopecoffee.in"
+    imageUrl: "/attikan-gold.jpg",
+    link: "https://thirdwavecoffee.in/products/attikan-estate-gold"
+  },
+  {
+    id: 5,
+    name: "Monsoon Malabar Reserve",
+    roaster: "Dope Coffee Roasters",
+    description: "Traditional monsooned coffee with low acidity, full body, and spicy notes. Dark roast.",
+    price: "₹549",
+    imageUrl: "/monsoon-reserve.jpg",
+    link: "https://dopecoffee.in/products/monsoon-malabar-reserve"
+  },
+  {
+    id: 6,
+    name: "Riverdale N72",
+    roaster: "Black Baza Coffee",
+    description: "Shade-grown coffee with notes of dark chocolate, fig, and walnut. Medium-dark roast.",
+    price: "₹475",
+    imageUrl: "/riverdale.jpg",
+    link: "https://blackbazacoffee.com/products/riverdale-n72"
   }
 ];
 
