@@ -24,26 +24,53 @@
   }
 
   .dark {
-    --color-primary: 160, 100, 70;     /* dark mode primary */
-    --color-primary-light: 191, 146, 122; /* dark mode primary light */
-    --color-primary-dark: 41, 21, 12;   /* same as light mode */
+    --color-primary: 189, 139, 110;     /* dark mode primary */
+    --color-primary-light: 209, 174, 153; /* dark mode primary light */
+    --color-primary-dark: 150, 92, 59;   /* dark mode primary dark */
     --color-background: 31, 41, 55;     /* gray-800 */
-    --color-text: 255, 255, 255;        /* white */
-    --color-text-light: 156, 163, 175;  /* gray-400 */
+    --color-text: 249, 250, 251;        /* gray-50 for better contrast */
+    --color-text-light: 209, 213, 219;  /* gray-300 for better contrast */
+  }
+
+  /* Base text colors for better accessibility */
+  html {
+    @apply text-gray-900;
+  }
+
+  html.dark {
+    @apply text-gray-50;
   }
 
   body {
-    @apply text-gray-900 dark:text-gray-100 bg-brown-50 dark:bg-gray-900 transition-colors duration-200;
+    @apply bg-brown-50 dark:bg-gray-900 transition-colors duration-200;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Higher contrast for dark mode links */
+  a {
+    @apply text-brown-800 dark:text-brown-300;
+  }
+
+  a:hover {
+    @apply text-brown-900 dark:text-brown-200;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
   }
 
-  /* Focus styles for better accessibility */
+  p {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  /* Improved focus styles for better accessibility */
   a:focus, button:focus, input:focus, select:focus, textarea:focus {
-    @apply outline-none ring-2 ring-brown-400 dark:ring-brown-500 ring-opacity-50;
+    @apply outline-none ring-2 ring-brown-500 dark:ring-brown-400 ring-opacity-50;
+  }
+
+  /* Better color contrast for disabled elements */
+  *:disabled {
+    @apply opacity-70 cursor-not-allowed;
   }
 }
 
@@ -90,5 +117,18 @@
 
   .badge-secondary {
     @apply bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200;
+  }
+  
+  /* Improved page section styling */
+  .page-section {
+    @apply py-12 md:py-16;
+  }
+  
+  .section-title {
+    @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4;
+  }
+  
+  .section-description {
+    @apply text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto px-4;
   }
 }
