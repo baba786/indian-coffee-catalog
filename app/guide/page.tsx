@@ -98,13 +98,13 @@ export default function GuidePage() {
 
   return (
     <BaseLayout>
-      <div className="min-h-screen bg-brown-50">
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
         <div className="pt-16">
           {/* Hero Section */}
-          <div className="bg-brown-900 text-white">
+          <div className="bg-brown-900 dark:bg-gray-800 text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-              <h1 className="text-3xl sm:text-4xl font-bold mb-4">Find Your Perfect Coffee</h1>
-              <p className="text-brown-100 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-white">Find Your Perfect Coffee</h1>
+              <p className="text-brown-100 dark:text-gray-300 max-w-2xl">
                 Take this quick quiz to discover Indian coffees you'll love. No coffee jargon,
                 just simple questions to match you with your ideal cup.
               </p>
@@ -113,22 +113,22 @@ export default function GuidePage() {
 
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {!showResults ? (
-              <div className="bg-white rounded-lg shadow-sm p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-8">
                 {/* Progress Bar */}
                 <div className="mb-8">
-                  <div className="h-2 bg-brown-100 rounded-full">
+                  <div className="h-2 bg-brown-100 dark:bg-gray-700 rounded-full">
                     <div 
-                      className="h-2 bg-brown-600 rounded-full transition-all duration-300"
+                      className="h-2 bg-brown-600 dark:bg-brown-500 rounded-full transition-all duration-300"
                       style={{ width: `${((currentStep + 1) / coffeeJourney.length) * 100}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Question */}
-                <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
                   {coffeeJourney[currentStep].title}
                 </h2>
-                <p className="text-gray-600 mb-8">
+                <p className="text-gray-600 dark:text-gray-300 mb-8">
                   {coffeeJourney[currentStep].description}
                 </p>
 
@@ -138,7 +138,7 @@ export default function GuidePage() {
                     <button
                       key={index}
                       onClick={() => handleOptionClick(option.result)}
-                      className="w-full p-4 text-left rounded-lg border border-brown-200 hover:border-brown-400 hover:bg-brown-50 transition-colors"
+                      className="w-full p-4 text-left rounded-lg border border-brown-200 dark:border-gray-600 hover:border-brown-400 dark:hover:border-brown-500 hover:bg-brown-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors"
                     >
                       {option.text}
                     </button>
@@ -146,12 +146,12 @@ export default function GuidePage() {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-sm p-8">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">Your Coffee Profile</h2>
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-8">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Your Coffee Profile</h2>
                 <div className="space-y-6">
                   {results.map((result, index) => (
-                    <div key={index} className="p-4 bg-brown-50 rounded-lg">
-                      <p className="text-gray-800">{result}</p>
+                    <div key={index} className="p-4 bg-brown-50 dark:bg-gray-700 rounded-lg">
+                      <p className="text-gray-800 dark:text-gray-200">{result}</p>
                     </div>
                   ))}
                 </div>
