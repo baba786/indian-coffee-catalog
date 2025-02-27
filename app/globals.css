@@ -14,22 +14,81 @@
 }
 
 @layer base {
+  :root {
+    --color-primary: 68, 36, 21;      /* brown-800 */
+    --color-primary-light: 114, 65, 41; /* brown-600 */
+    --color-primary-dark: 41, 21, 12;   /* brown-900 */
+    --color-background: 249, 246, 240;  /* brown-50 */
+    --color-text: 17, 24, 39;          /* gray-900 */
+    --color-text-light: 107, 114, 128;  /* gray-500 */
+  }
+
+  .dark {
+    --color-primary: 160, 100, 70;     /* dark mode primary */
+    --color-primary-light: 191, 146, 122; /* dark mode primary light */
+    --color-primary-dark: 41, 21, 12;   /* same as light mode */
+    --color-background: 31, 41, 55;     /* gray-800 */
+    --color-text: 255, 255, 255;        /* white */
+    --color-text-light: 156, 163, 175;  /* gray-400 */
+  }
+
   body {
-    @apply text-gray-900 bg-brown-50;
+    @apply text-gray-900 dark:text-gray-100 bg-brown-50 dark:bg-gray-900 transition-colors duration-200;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
   }
+
+  /* Focus styles for better accessibility */
+  a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    @apply outline-none ring-2 ring-brown-400 dark:ring-brown-500 ring-opacity-50;
+  }
 }
 
 @layer components {
+  /* Primary button with improved hover and focus states */
   .btn-primary {
-    @apply bg-brown-800 text-white px-6 py-2 rounded-full hover:bg-brown-900 transition-colors;
+    @apply bg-brown-800 dark:bg-brown-700 text-white px-6 py-2 rounded-full
+           hover:bg-brown-900 dark:hover:bg-brown-600 
+           focus:outline-none focus:ring-2 focus:ring-brown-400 dark:focus:ring-brown-300 focus:ring-opacity-50
+           transition-all duration-200 inline-flex items-center justify-center;
   }
 
+  /* Secondary button */
   .btn-secondary {
-    @apply bg-white text-brown-800 px-6 py-2 rounded-full border border-brown-800 hover:bg-brown-50 transition-colors;
+    @apply bg-white dark:bg-gray-800 text-brown-800 dark:text-brown-300 
+           px-6 py-2 rounded-full border border-brown-800 dark:border-brown-600
+           hover:bg-brown-50 dark:hover:bg-gray-700 
+           focus:outline-none focus:ring-2 focus:ring-brown-400 dark:focus:ring-brown-300 focus:ring-opacity-50
+           transition-all duration-200 inline-flex items-center justify-center;
+  }
+  
+  /* Text button */
+  .btn-text {
+    @apply text-brown-800 dark:text-brown-300 px-4 py-2 rounded-md
+           hover:bg-brown-50 dark:hover:bg-gray-800
+           focus:outline-none focus:ring-2 focus:ring-brown-400 dark:focus:ring-brown-300 focus:ring-opacity-50
+           transition-all duration-200 inline-flex items-center justify-center;
+  }
+
+  /* Card styling */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700
+           hover:shadow-md transition-all duration-300 overflow-hidden;
+  }
+
+  /* Badge styling */
+  .badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-brown-100 dark:bg-brown-900 text-brown-800 dark:text-brown-200;
+  }
+
+  .badge-secondary {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200;
   }
 }
