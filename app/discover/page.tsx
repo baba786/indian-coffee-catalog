@@ -87,13 +87,13 @@ export default function DiscoverPage() {
 
   return (
     <BaseLayout>
-      <div className="min-h-screen bg-brown-50">
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
         <div className="pt-16">
           {/* Hero Section */}
-          <div className="bg-brown-900 text-white">
+          <div className="bg-brown-900 dark:bg-gray-800 text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-              <h1 className="text-3xl sm:text-4xl font-bold mb-4">Discover Your Perfect Coffee</h1>
-              <p className="text-brown-100 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-white">Discover Your Perfect Coffee</h1>
+              <p className="text-brown-100 dark:text-gray-300 max-w-2xl">
                 We've curated the finest Indian coffees just for you. Each coffee is hand-picked
                 and reviewed to help you make the perfect choice.
               </p>
@@ -108,13 +108,13 @@ export default function DiscoverPage() {
                   <input
                     type="text"
                     placeholder="Search coffees..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-transparent"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brown-500 dark:focus:ring-brown-400 focus:border-transparent"
                     value={filters.searchQuery}
                     onChange={(e) => setFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
                   />
                 </div>
                 <select
-                  className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-transparent bg-white"
+                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brown-500 dark:focus:ring-brown-400 focus:border-transparent"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'price' | 'rating')}
                 >
@@ -127,22 +127,22 @@ export default function DiscoverPage() {
             {/* Filter Section */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               <div className="lg:col-span-1">
-                <div className="bg-white p-6 rounded-lg shadow-sm sticky top-20">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Filter Coffee</h2>
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 sticky top-20">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter Coffee</h2>
                   
                   {/* Roast Level */}
                   <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">Roast Level</h3>
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">Roast Level</h3>
                     <div className="space-y-2">
                       {['Light', 'Medium', 'Medium-Dark', 'Dark'].map((roast) => (
                         <label key={roast} className="flex items-center">
                           <input
                             type="checkbox"
-                            className="rounded border-gray-300 text-brown-600 focus:ring-brown-500"
+                            className="rounded border-gray-300 dark:border-gray-600 text-brown-600 focus:ring-brown-500 dark:focus:ring-brown-400 bg-white dark:bg-gray-700"
                             checked={filters.roastLevel.includes(roast)}
                             onChange={() => handleRoastLevelChange(roast)}
                           />
-                          <span className="ml-2 text-sm text-gray-600">{roast}</span>
+                          <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">{roast}</span>
                         </label>
                       ))}
                     </div>
@@ -150,17 +150,17 @@ export default function DiscoverPage() {
 
                   {/* Flavor Profile */}
                   <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">Flavor Profile</h3>
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">Flavor Profile</h3>
                     <div className="space-y-2">
                       {['Chocolatey', 'Fruity', 'Nutty', 'Floral', 'Spicy', 'Sweet'].map((flavor) => (
                         <label key={flavor} className="flex items-center">
                           <input
                             type="checkbox"
-                            className="rounded border-gray-300 text-brown-600 focus:ring-brown-500"
+                            className="rounded border-gray-300 dark:border-gray-600 text-brown-600 focus:ring-brown-500 dark:focus:ring-brown-400 bg-white dark:bg-gray-700"
                             checked={filters.flavorProfile.includes(flavor)}
                             onChange={() => handleFlavorProfileChange(flavor)}
                           />
-                          <span className="ml-2 text-sm text-gray-600">{flavor}</span>
+                          <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">{flavor}</span>
                         </label>
                       ))}
                     </div>
@@ -168,7 +168,7 @@ export default function DiscoverPage() {
 
                   {/* Price Range */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">
                       Price Range (₹{filters.priceRange})
                     </h3>
                     <input
@@ -178,9 +178,9 @@ export default function DiscoverPage() {
                       step="100"
                       value={filters.priceRange}
                       onChange={(e) => setFilters(prev => ({ ...prev, priceRange: Number(e.target.value) }))}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brown-600"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-brown-600 dark:accent-brown-500"
                     />
-                    <div className="flex justify-between text-sm text-gray-600 mt-1">
+                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-1">
                       <span>₹0</span>
                       <span>₹1000</span>
                     </div>
@@ -194,7 +194,7 @@ export default function DiscoverPage() {
                       priceRange: 1000,
                       searchQuery: '',
                     })}
-                    className="mt-6 w-full px-4 py-2 bg-brown-50 text-brown-800 rounded-lg hover:bg-brown-100 transition-colors"
+                    className="mt-6 w-full px-4 py-2 bg-brown-50 dark:bg-gray-700 text-brown-800 dark:text-brown-200 rounded-lg hover:bg-brown-100 dark:hover:bg-gray-600 transition-colors"
                   >
                     Reset Filters
                   </button>
@@ -210,18 +210,18 @@ export default function DiscoverPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No coffees found</h3>
-                    <p className="text-gray-600">
+                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No coffees found</h3>
+                    <p className="text-gray-600 dark:text-gray-300">
                       Try adjusting your filters or search query to find more options.
                     </p>
                   </div>
                 )}
 
                 {/* Personal Note Section */}
-                <div className="mt-12 bg-white p-6 rounded-lg shadow-sm border border-brown-100">
-                  <h2 className="text-xl font-semibold text-brown-900 mb-4">A Personal Note</h2>
-                  <p className="text-gray-600">
+                <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-brown-100 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-brown-900 dark:text-brown-200 mb-4">A Personal Note</h2>
+                  <p className="text-gray-600 dark:text-gray-300">
                     As a coffee enthusiast, I've personally tried many of these coffees and included
                     only those that I believe offer great value. Some links above are affiliate links,
                     which means I may earn a small commission if you make a purchase (at no extra cost
