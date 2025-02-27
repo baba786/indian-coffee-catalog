@@ -43,6 +43,60 @@ module.exports = {
           '100%': { transform: 'translateY(0)', opacity: 1 },
         },
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.gray.900'),
+            a: {
+              color: theme('colors.brown.600'),
+              '&:hover': {
+                color: theme('colors.brown.800'),
+              },
+            },
+          },
+        },
+        dark: {
+          css: {
+            color: theme('colors.gray.100'),
+            a: {
+              color: theme('colors.brown.400'),
+              '&:hover': {
+                color: theme('colors.brown.300'),
+              },
+            },
+            h1: {
+              color: theme('colors.gray.100'),
+            },
+            h2: {
+              color: theme('colors.gray.100'),
+            },
+            h3: {
+              color: theme('colors.gray.100'),
+            },
+            h4: {
+              color: theme('colors.gray.100'),
+            },
+            p: {
+              color: theme('colors.gray.300'),
+            },
+            strong: {
+              color: theme('colors.gray.100'),
+            },
+            code: {
+              color: theme('colors.gray.300'),
+            },
+            blockquote: {
+              color: theme('colors.gray.300'),
+              borderLeftColor: theme('colors.gray.700'),
+            },
+          },
+        },
+      }),
+    },
+  },
+  variants: {
+    extend: {
+      typography: ['dark'],
     },
   },
   plugins: [],
