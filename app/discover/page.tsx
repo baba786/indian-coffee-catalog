@@ -1,232 +1,328 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BaseLayout from '../components/layout/BaseLayout';
-import CoffeeCard from '../components/coffee/CoffeeCard';
-import { Coffee } from '@/types';
+import Link from 'next/link';
 import { coffees } from '@/data';
 
-type FilterState = {
-  roastLevel: string[];
-  flavorProfile: string[];
-  priceRange: number;
-  searchQuery: string;
-};
+// Define filter types
+type FilterType = 'all' | 'light' | 'medium' | 'dark' | 'bestseller' | 'new';
 
 export default function DiscoverPage() {
-  const [filters, setFilters] = useState<FilterState>({
-    roastLevel: [],
-    flavorProfile: [],
-    priceRange: 1000,
-    searchQuery: '',
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Enhanced coffee data with badges and images
+  const enhancedCoffees = coffees.map(coffee => {
+    // Add badges based on coffee properties
+    const badges = [];
+    if (coffee.featured) badges.push('bestseller');
+    if (coffee.details.roastLevel === 'Light') badges.push('light');
+    else if (coffee.details.roastLevel === 'Medium') badges.push('medium');
+    else if (coffee.details.roastLevel.includes('Dark')) badges.push('dark');
+    
+    // Determine if this is a new coffee (simplified example - in reality would check against a date)
+    const isNew = coffee.id.includes('attikan') || coffee.id.includes('monsoon');
+    if (isNew) badges.push('new');
+    
+    // Choose a placeholder image based on the coffee ID
+    let imageUrl = '/images/coffee-1.jpg';
+    
+    // Return enhanced coffee data
+    return {
+      ...coffee,
+      badges,
+      imageUrl
+    };
   });
 
-  const [sortBy, setSortBy] = useState<'price' | 'rating'>('rating');
-
-  const filteredCoffees = coffees.filter((coffee) => {
-    // Filter by roast level
-    if (filters.roastLevel.length > 0 && !filters.roastLevel.includes(coffee.details.roastLevel)) {
-      return false;
+  // Filter coffee based on active filter and search query
+  const filteredCoffees = enhancedCoffees.filter(coffee => {
+    // Filter by category
+    if (activeFilter !== 'all' && activeFilter !== 'bestseller' && activeFilter !== 'new') {
+      if (!coffee.badges.includes(activeFilter)) return false;
     }
-
-    // Filter by flavor profile
-    if (filters.flavorProfile.length > 0 && !coffee.details.flavorNotes.some(note => 
-      filters.flavorProfile.includes(note)
-    )) {
-      return false;
-    }
-
-    // Filter by price
-    if (coffee.price > filters.priceRange) {
-      return false;
-    }
-
+    
+    if (activeFilter === 'bestseller' && !coffee.badges.includes('bestseller')) return false;
+    if (activeFilter === 'new' && !coffee.badges.includes('new')) return false;
+    
     // Filter by search query
-    if (filters.searchQuery) {
-      const searchLower = filters.searchQuery.toLowerCase();
-      return (
-        coffee.name.toLowerCase().includes(searchLower) ||
-        coffee.description.toLowerCase().includes(searchLower) ||
-        coffee.details.flavorNotes.some(note => 
-          note.toLowerCase().includes(searchLower)
-        )
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const nameMatch = coffee.name.toLowerCase().includes(query);
+      const roasterMatch = coffee.roaster.toLowerCase().includes(query);
+      const flavorMatch = coffee.details.flavorNotes.some(note => 
+        note.toLowerCase().includes(query)
       );
+      
+      if (!(nameMatch || roasterMatch || flavorMatch)) return false;
     }
-
+    
     return true;
   });
 
-  // Sort coffees
-  const sortedCoffees = [...filteredCoffees].sort((a, b) => {
-    if (sortBy === 'price') {
-      return a.price - b.price;
-    }
-    // Sort by rating
-    const aRating = a.rating?.score || 0;
-    const bRating = b.rating?.score || 0;
-    return bRating - aRating;
-  });
-
-  const handleRoastLevelChange = (roast: string) => {
-    setFilters(prev => ({
-      ...prev,
-      roastLevel: prev.roastLevel.includes(roast)
-        ? prev.roastLevel.filter(r => r !== roast)
-        : [...prev.roastLevel, roast]
-    }));
-  };
-
-  const handleFlavorProfileChange = (flavor: string) => {
-    setFilters(prev => ({
-      ...prev,
-      flavorProfile: prev.flavorProfile.includes(flavor)
-        ? prev.flavorProfile.filter(f => f !== flavor)
-        : [...prev.flavorProfile, flavor]
-    }));
-  };
-
   return (
     <BaseLayout>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
-        <div className="pt-16">
-          {/* Hero Section */}
-          <div className="bg-brown-900 dark:bg-gray-800 text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-              <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-white">Discover Your Perfect Coffee</h1>
-              <p className="text-brown-100 dark:text-gray-300 max-w-2xl">
-                We've curated the finest Indian coffees just for you. Each coffee is hand-picked
-                and reviewed to help you make the perfect choice.
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        {/* Hero section */}
+        <div className="bg-gradient-to-r from-brown-800 to-brown-900 dark:from-gray-800 dark:to-gray-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+            <div className="text-center">
+              <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4">Discover Indian Coffee</h1>
+              <p className="text-brown-100 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+                Explore our curated selection of the finest coffee from India's renowned estates and roasters.
               </p>
             </div>
           </div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            {/* Search and Sort */}
-            <div className="mb-8">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    placeholder="Search coffees..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brown-500 dark:focus:ring-brown-400 focus:border-transparent"
-                    value={filters.searchQuery}
-                    onChange={(e) => setFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
-                  />
+        </div>
+        
+        {/* Main content area */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Search and Filters */}
+          <div className="mb-10">
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+              {/* Search */}
+              <div className="relative flex-grow">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
                 </div>
-                <select
-                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brown-500 dark:focus:ring-brown-400 focus:border-transparent"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'price' | 'rating')}
-                >
-                  <option value="rating">Sort by Rating</option>
-                  <option value="price">Sort by Price</option>
-                </select>
+                <input
+                  type="text"
+                  placeholder="Search coffees by name, roaster or flavor..."
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brown-500 transition-colors"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
+              
+              {/* Mobile filter toggle */}
+              <button
+                className="md:hidden bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 px-4 py-3 rounded-lg font-medium flex items-center justify-center"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Filters {showFilters ? '×' : '+'}
+              </button>
             </div>
-
-            {/* Filter Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              <div className="lg:col-span-1">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 sticky top-20">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter Coffee</h2>
+            
+            {/* Filter chips - desktop: always visible, mobile: toggle visible */}
+            <div className={`flex flex-wrap gap-2 ${!showFilters ? 'hidden md:flex' : ''}`}>
+              <button
+                onClick={() => setActiveFilter('all')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'all'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                All Coffees
+              </button>
+              <button
+                onClick={() => setActiveFilter('bestseller')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'bestseller'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Bestsellers
+              </button>
+              <button
+                onClick={() => setActiveFilter('light')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'light'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Light Roast
+              </button>
+              <button
+                onClick={() => setActiveFilter('medium')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'medium'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Medium Roast
+              </button>
+              <button
+                onClick={() => setActiveFilter('dark')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'dark'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Dark Roast
+              </button>
+              <button
+                onClick={() => setActiveFilter('new')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeFilter === 'new'
+                    ? 'bg-brown-800 dark:bg-brown-700 text-white'
+                    : 'bg-brown-100 dark:bg-gray-700 text-brown-800 dark:text-brown-200 hover:bg-brown-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                New Arrivals
+              </button>
+            </div>
+          </div>
+          
+          {/* Results count */}
+          <div className="mb-8 flex justify-between items-center">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {filteredCoffees.length} {filteredCoffees.length === 1 ? 'Coffee' : 'Coffees'}
+            </h2>
+            
+            {activeFilter !== 'all' && (
+              <button
+                onClick={() => setActiveFilter('all')}
+                className="text-sm text-brown-600 dark:text-brown-400 hover:text-brown-800 dark:hover:text-brown-300 flex items-center"
+              >
+                Clear Filters
+                <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+          
+          {/* Coffee grid */}
+          {filteredCoffees.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {filteredCoffees.map((coffee) => (
+                <div key={coffee.id} className="group bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+                  {/* Image container */}
+                  <div className="relative h-48 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10" />
+                    
+                    {/* Badges - positioned in top right */}
+                    {coffee.badges.length > 0 && (
+                      <div className="absolute top-3 right-3 z-20 flex flex-col gap-2">
+                        {coffee.badges.includes('bestseller') && (
+                          <span className="px-3 py-1 bg-amber-100 dark:bg-amber-900/80 text-amber-800 dark:text-amber-200 rounded-full text-xs font-semibold shadow-sm">
+                            Bestseller
+                          </span>
+                        )}
+                        {coffee.badges.includes('new') && (
+                          <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/80 text-blue-800 dark:text-blue-200 rounded-full text-xs font-semibold shadow-sm">
+                            New Arrival
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Add coffee name and roaster as overlay text */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                      <p className="text-white text-sm font-medium opacity-90">{coffee.roaster}</p>
+                      <h3 className="text-white text-xl font-bold">{coffee.name}</h3>
+                    </div>
+                  </div>
                   
-                  {/* Roast Level */}
-                  <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">Roast Level</h3>
-                    <div className="space-y-2">
-                      {['Light', 'Medium', 'Medium-Dark', 'Dark'].map((roast) => (
-                        <label key={roast} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            className="rounded border-gray-300 dark:border-gray-600 text-brown-600 focus:ring-brown-500 dark:focus:ring-brown-400 bg-white dark:bg-gray-700"
-                            checked={filters.roastLevel.includes(roast)}
-                            onChange={() => handleRoastLevelChange(roast)}
-                          />
-                          <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">{roast}</span>
-                        </label>
+                  {/* Coffee details */}
+                  <div className="p-4">
+                    {/* Origin & Roast */}
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        {coffee.details.origin}
+                      </span>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        coffee.details.roastLevel === 'Light' 
+                          ? 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200' 
+                          : coffee.details.roastLevel === 'Medium' 
+                            ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-200'
+                            : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-200'
+                      }`}>
+                        {coffee.details.roastLevel} Roast
+                      </span>
+                    </div>
+                    
+                    {/* Flavor tags */}
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {coffee.details.flavorNotes.slice(0, 3).map((flavor, index) => (
+                        <span 
+                          key={index}
+                          className="px-2 py-1 bg-brown-50 dark:bg-gray-700 text-brown-800 dark:text-brown-200 rounded-full text-xs"
+                        >
+                          {flavor}
+                        </span>
                       ))}
                     </div>
-                  </div>
-
-                  {/* Flavor Profile */}
-                  <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">Flavor Profile</h3>
-                    <div className="space-y-2">
-                      {['Chocolatey', 'Fruity', 'Nutty', 'Floral', 'Spicy', 'Sweet'].map((flavor) => (
-                        <label key={flavor} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            className="rounded border-gray-300 dark:border-gray-600 text-brown-600 focus:ring-brown-500 dark:focus:ring-brown-400 bg-white dark:bg-gray-700"
-                            checked={filters.flavorProfile.includes(flavor)}
-                            onChange={() => handleFlavorProfileChange(flavor)}
-                          />
-                          <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">{flavor}</span>
-                        </label>
-                      ))}
+                    
+                    {/* Price and Buy button */}
+                    <div className="flex items-center justify-between mt-4">
+                      <span className="text-lg font-bold text-gray-900 dark:text-white">
+                        ₹{coffee.price}
+                      </span>
+                      <Link
+                        href={coffee.affiliateLink}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        className="px-4 py-2 bg-brown-600 hover:bg-brown-700 text-white rounded-lg inline-flex items-center"
+                      >
+                        Buy Now
+                        <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </Link>
                     </div>
                   </div>
-
-                  {/* Price Range */}
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">
-                      Price Range (₹{filters.priceRange})
-                    </h3>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1000"
-                      step="100"
-                      value={filters.priceRange}
-                      onChange={(e) => setFilters(prev => ({ ...prev, priceRange: Number(e.target.value) }))}
-                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-brown-600 dark:accent-brown-500"
-                    />
-                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      <span>₹0</span>
-                      <span>₹1000</span>
-                    </div>
-                  </div>
-
-                  {/* Reset Filters */}
-                  <button
-                    onClick={() => setFilters({
-                      roastLevel: [],
-                      flavorProfile: [],
-                      priceRange: 1000,
-                      searchQuery: '',
-                    })}
-                    className="mt-6 w-full px-4 py-2 bg-brown-50 dark:bg-gray-700 text-brown-800 dark:text-brown-200 rounded-lg hover:bg-brown-100 dark:hover:bg-gray-600 transition-colors"
-                  >
-                    Reset Filters
-                  </button>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+              <svg className="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No coffees found</h3>
+              <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                Try adjusting your filters or search query to find more options.
+              </p>
+              <button
+                onClick={() => {
+                  setActiveFilter('all');
+                  setSearchQuery('');
+                }}
+                className="mt-4 px-4 py-2 bg-brown-600 hover:bg-brown-700 text-white rounded-lg inline-flex items-center"
+              >
+                View All Coffees
+              </button>
+            </div>
+          )}
+          
+          {/* Coffee guide callout */}
+          <div className="mt-16 bg-brown-50 dark:bg-gray-800 rounded-xl p-6 sm:p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-6 items-center">
+              <div className="sm:w-2/3">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Not sure which coffee to choose?
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Take our quick quiz to find the perfect coffee based on your taste preferences and brewing method.
+                </p>
+                <Link
+                  href="/guide"
+                  className="inline-flex items-center px-4 py-2 bg-brown-800 dark:bg-brown-700 hover:bg-brown-900 dark:hover:bg-brown-800 text-white rounded-lg transition-colors"
+                >
+                  Coffee Finder Quiz
+                  <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
-
-              {/* Coffee List */}
-              <div className="lg:col-span-3">
-                {sortedCoffees.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {sortedCoffees.map((coffee) => (
-                      <CoffeeCard key={coffee.id} coffee={coffee} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No coffees found</h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Try adjusting your filters or search query to find more options.
-                    </p>
-                  </div>
-                )}
-
-                {/* Personal Note Section */}
-                <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-brown-100 dark:border-gray-700">
-                  <h2 className="text-xl font-semibold text-brown-900 dark:text-brown-200 mb-4">A Personal Note</h2>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    As a coffee enthusiast, I've personally tried many of these coffees and included
-                    only those that I believe offer great value. Some links above are affiliate links,
-                    which means I may earn a small commission if you make a purchase (at no extra cost
-                    to you). This helps support this hobby project and keeps the coffee guides coming!
-                  </p>
+              <div className="sm:w-1/3 flex justify-center">
+                <div className="w-24 h-24 rounded-full bg-brown-200 dark:bg-brown-900 flex items-center justify-center">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 11H20M8 15V17M12 15V17M16 11V13M12 7V9M8 11V7M16 7V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </div>
