@@ -153,12 +153,14 @@ export const brewingMethods: BrewingMethod[] = [
       {
         order: 2,
         instruction: 'Pour hot water (not boiling) and close the lid',
-        tip: 'Fill just below the top rim'
+        tip: 'Fill just below the top rim',
+        duration: 30 // 30 seconds
       },
       {
         order: 3,
         instruction: 'Wait 10-15 minutes for coffee to drip completely',
-        tip: 'Be patient, slower extraction means better flavor'
+        tip: 'Be patient, slower extraction means better flavor',
+        duration: 900 // 15 minutes
       },
       {
         order: 4,
@@ -190,12 +192,14 @@ export const brewingMethods: BrewingMethod[] = [
       {
         order: 2,
         instruction: 'Pour hot water (95°C) and stir gently',
-        tip: 'Make sure all grounds are wet'
+        tip: 'Make sure all grounds are wet',
+        duration: 30 // 30 seconds
       },
       {
         order: 3,
         instruction: 'Place plunger on top and wait 4 minutes',
-        tip: 'Don\'t push down yet'
+        tip: 'Don\'t push down yet',
+        duration: 240 // 4 minutes
       },
       {
         order: 4,
@@ -233,12 +237,14 @@ export const brewingMethods: BrewingMethod[] = [
       {
         order: 3,
         instruction: 'Pour just enough water to wet grounds and wait 30 seconds',
-        tip: 'This is called the bloom, it allows gas to escape'
+        tip: 'This is called the bloom, it allows gas to escape',
+        duration: 30 // 30 seconds
       },
       {
         order: 4,
         instruction: 'Slowly pour remaining water in circular motion',
-        tip: 'Maintain a steady pour, aim to finish in 2-3 minutes total'
+        tip: 'Maintain a steady pour, aim to finish in 2-3 minutes total',
+        duration: 120 // 2 minutes
       }
     ],
     suitableFor: ['Light Roasts', 'Medium Roasts', 'Bright, fruity coffees'],
