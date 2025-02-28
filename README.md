@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Indian Coffee Catalog
+
+A streamlined guide to discovering and enjoying Indian specialty coffee.
+
+## About This Project
+
+The Indian Coffee Catalog is designed to help both newcomers and experienced coffee drinkers discover the rich world of Indian coffee. The site offers:
+
+- Simple coffee recommendations based on flavor preferences and brewing methods
+- Clear, straightforward brewing guides
+- Curated selections of quality Indian coffees
+- Visual indicators of coffee characteristics (strength, acidity, body)
+- Dark/light mode for comfortable viewing
+
+## Features
+
+- **Coffee Quiz**: Answer two simple questions to get personalized coffee recommendations
+- **Brewing Guides**: Step-by-step instructions for popular brewing methods
+- **Coffee Explorer**: Browse and filter coffees by roast level, flavor profile, and price
+- **Roaster Information**: Learn about India's leading coffee roasters
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `/app` - Next.js app directory containing pages and components
+- `/data` - Coffee and roaster data
+- `/types` - TypeScript type definitions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Future Improvements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Add real product images
+- Integrate with roaster inventory APIs for real-time availability
+- Add user accounts and favorites
+- Expand the coffee database
+- Add regional coffee maps
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
