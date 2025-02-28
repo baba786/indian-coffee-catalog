@@ -1,3 +1,5 @@
+// Simplified type definitions for Indian Coffee Catalog
+
 export interface Coffee {
   id: string;
   name: string;
@@ -5,55 +7,32 @@ export interface Coffee {
   description: string;
   price: number;
   currency: string;
-  images: {
-    main: string;
-    gallery?: string[];
-  };
+  imageUrl: string;
   details: {
     origin: string;
-    altitude?: string;
-    process: string;
-    roastLevel: 'Light' | 'Medium' | 'Medium-Dark' | 'Dark';
-    flavorNotes: string[];
-    weight: number; // in grams
+    roastLevel: 'Light' | 'Medium' | 'Dark';
+    flavorNotes: string[]; // Limited to 3 max
+    strength: number; // 1-5 scale
+    acidity: number; // 1-5 scale
+    body: number; // 1-5 scale
   };
-  affiliateLink: string;
+  buyLink: string;
   inStock: boolean;
   featured?: boolean;
-  rating?: {
-    score: number;
-    count: number;
-  };
+  rating?: number; // Simple 1-5 scale
+  forBeginners?: boolean;
 }
 
 export interface Roaster {
   id: string;
   name: string;
   description: string;
-  locations: string[];
-  founded: number;
+  location: string; // Simplified to primary location
   logo: string;
   website: string;
-  socialMedia?: {
-    instagram?: string;
-    twitter?: string;
-    facebook?: string;
-  };
-  specialties: string[];
-  shipping: {
-    domestic: boolean;
-    international: boolean;
-    freeAbove?: number;
-  };
+  specialties: string[]; // Limited to 3 key specialties
+  priceRange: string; // e.g. "₹400 - ₹800"
   featured?: boolean;
-}
-
-export interface FlavorProfile {
-  id: string;
-  name: string;
-  category: 'Fruity' | 'Nutty' | 'Chocolatey' | 'Spicy' | 'Floral' | 'Sweet' | 'Roasted';
-  description: string;
-  commonIn: string[];
 }
 
 export interface BrewingMethod {
@@ -62,20 +41,19 @@ export interface BrewingMethod {
   description: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   timeRequired: number; // in minutes
-  equipment: string[];
+  equipment: string[]; // Essential equipment only
   steps: {
     order: number;
     instruction: string;
     tip?: string;
-    duration?: number; // in seconds
   }[];
-  recommendedRoasts: ('Light' | 'Medium' | 'Medium-Dark' | 'Dark')[];
+  suitableFor: string[]; // Types of coffee that work well with this method
+  imageUrl: string;
 }
 
 export interface CoffeeQuizResult {
   preferences: {
-    taste: string[];
-    roastLevel: string[];
+    taste: string;
     brewingMethod: string;
   };
   recommendations: Coffee[];
