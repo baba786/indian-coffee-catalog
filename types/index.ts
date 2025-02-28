@@ -46,6 +46,7 @@ export interface BrewingMethod {
     order: number;
     instruction: string;
     tip?: string;
+    duration?: number; // in seconds, added back for compatibility
   }[];
   suitableFor: string[]; // Types of coffee that work well with this method
   imageUrl: string;
