@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BrewingMethod } from '@/types';
-import { brewingMethods } from '@/data';
+import { BrewingMethod } from '../../../types';
+import { brewingMethods } from '../../../data';
 
 interface BrewingStep {
   order: number;
@@ -58,11 +58,11 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
   const progress = ((currentStep + 1) / method.steps.length) * 100;
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
+    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
       {/* Method Header */}
-      <div className="bg-brown-900 text-white p-6">
+      <div className="bg-brown-900 dark:bg-gray-700 text-white p-6">
         <h2 className="text-2xl font-bold mb-2">{method.name}</h2>
-        <p className="text-brown-100">{method.description}</p>
+        <p className="text-brown-100 dark:text-gray-300">{method.description}</p>
         
         {/* Equipment List */}
         <div className="mt-4">
@@ -71,7 +71,7 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
             {method.equipment.map((item, index) => (
               <span
                 key={index}
-                className="inline-block bg-brown-800 text-brown-100 px-3 py-1 rounded-full text-sm"
+                className="inline-block bg-brown-800 dark:bg-gray-600 text-brown-100 dark:text-gray-300 px-3 py-1 rounded-full text-sm"
               >
                 {item}
               </span>
@@ -81,9 +81,9 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 bg-brown-100">
+      <div className="h-2 bg-brown-100 dark:bg-gray-600">
         <div
-          className="h-2 bg-brown-600 transition-all duration-300"
+          className="h-2 bg-brown-600 dark:bg-brown-400 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -91,22 +91,22 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
       {/* Current Step */}
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm text-brown-600">
+          <span className="text-sm text-brown-600 dark:text-brown-300">
             Step {currentStep + 1} of {method.steps.length}
           </span>
           {timer > 0 && (
-            <span className="text-lg font-mono font-bold">
+            <span className="text-lg font-mono font-bold text-gray-900 dark:text-white">
               {formatTime(timer)}
             </span>
           )}
         </div>
 
-        <div className="bg-brown-50 rounded-lg p-6 mb-6">
-          <p className="text-lg text-gray-900 mb-2">
+        <div className="bg-brown-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
+          <p className="text-lg text-gray-900 dark:text-white mb-2">
             {method.steps[currentStep].instruction}
           </p>
           {method.steps[currentStep].tip && (
-            <p className="text-sm text-brown-600 italic">
+            <p className="text-sm text-brown-600 dark:text-brown-300 italic">
               Tip: {method.steps[currentStep].tip}
             </p>
           )}
@@ -116,9 +116,9 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
         {method.steps[currentStep].duration && timer === 0 && !isTimerRunning && (
           <button
             onClick={() => startTimer(method.steps[currentStep].duration!)}
-            className="w-full bg-brown-100 text-brown-800 py-3 rounded-lg mb-4 hover:bg-brown-200 transition-colors"
+            className="w-full bg-brown-100 dark:bg-brown-800 text-brown-800 dark:text-brown-100 py-3 rounded-lg mb-4 hover:bg-brown-200 dark:hover:bg-brown-700 transition-colors"
           >
-            Start Timer ({method.steps[currentStep].duration}s)
+            Start Timer ({formatTime(method.steps[currentStep].duration!)})
           </button>
         )}
 
@@ -127,14 +127,14 @@ export default function BrewingGuide({ methodId = 'south-indian-filter' }: Brewi
           <button
             onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
             disabled={currentStep === 0}
-            className="px-4 py-2 text-brown-800 disabled:text-brown-400 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-brown-800 dark:text-brown-300 disabled:text-brown-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed"
           >
             Previous
           </button>
           <button
             onClick={() => setCurrentStep(prev => Math.min(method.steps.length - 1, prev + 1))}
             disabled={currentStep === method.steps.length - 1 || (timer > 0 && isTimerRunning)}
-            className="px-4 py-2 bg-brown-800 text-white rounded-lg disabled:bg-brown-400 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-brown-800 dark:bg-brown-600 text-white rounded-lg disabled:bg-brown-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
           >
             {currentStep === method.steps.length - 1 ? 'Finish' : 'Next'}
           </button>
